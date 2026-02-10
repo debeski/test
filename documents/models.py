@@ -6,6 +6,8 @@ class Document(ScopedModel):
     title = models.CharField(max_length=255)
     file = models.FileField(upload_to='media/documents/', blank=True, null=True)
     uploaded_at = models.DateTimeField(auto_now_add=True)
+    # form_exclude = ["id", "uploaded_at"]
+    # table_exclude = ["id", "uploaded_at"]
 
     def __str__(self):
         return self.title
@@ -60,6 +62,8 @@ class Affiliate(ScopedModel):
     
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    # form_exclude = ["id", "created_at", "updated_at"]
+    # table_exclude = ["id", "created_at", "updated_at"]
 
     class Meta:
         verbose_name = "جهة"

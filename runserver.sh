@@ -18,6 +18,14 @@ echo "Cleaning up residual files..."
 find venv/lib/python*/site-packages -name "*microsys*" -type d -exec rm -rf {} + 2>/dev/null || true
 find venv/lib/python*/site-packages -name "*microsys*" -type f -delete 2>/dev/null || true
 
+# Delete 0001_initial.py migration files only from the current Django project
+echo "Checking for 0001_initial.py migration files in current project..."
+# Look for migrations in the project root (excluding venv and other system directories)
+find . -maxdepth 4 -path "./venv" -prune -o -path "./.*" -prune -o -name "0001_initial.py" -path "*/migrations/*" -type f -print | while read -r migration_file; do
+    echo "Deleting: $migration_file"
+    rm -f "$migration_file"
+done
+
 # Reinstall the package
 echo "Reinstalling microsys..."
 pip install --upgrade --no-deps --force-reinstall /home/debeski/xPy/microsys-pkg
